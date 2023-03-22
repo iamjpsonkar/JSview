@@ -1,0 +1,2 @@
+#!/bin/sh
+python /Users/jsonkar/MYDEV/JS_view/app.pyw > /dev/null 2>&1

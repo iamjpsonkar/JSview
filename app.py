@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import QMainWindow, QPlainTextEdit, QTextEdit
 from PyQt5.QtWidgets import QMenu
 from PyQt5.QtWidgets import QShortcut
 from PyQt5.QtGui import QKeySequence
+from PyQt5.QtGui import QIcon
 import json
 
 import pickle
@@ -22,7 +23,8 @@ class MyWindow(QMainWindow):
         super().__init__()
         global backup
         
-        self.tabs = QTabWidget()
+        
+        self.tabs = QTabWidget(movable=True)
         self.tabs.setTabsClosable(True)
         self.tabs.tabCloseRequested.connect(self.close_tab)
         self.setCentralWidget(self.tabs)

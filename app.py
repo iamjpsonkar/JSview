@@ -23,7 +23,8 @@ class MyWindow(QMainWindow):
         global backup
         
         self.tabs = QTabWidget()
-        # self.tabs.tabsClosable()
+        self.tabs.setTabsClosable(True)
+        self.tabs.tabCloseRequested.connect(self.close_tab)
         self.setCentralWidget(self.tabs)
         self.setWindowState(QtCore.Qt.WindowMaximized)
 
@@ -47,15 +48,19 @@ class MyWindow(QMainWindow):
         self.loadjsonshortcut = QShortcut(QKeySequence("Ctrl+W"), self)
         self.loadjsonshortcut.activated.connect(self.save_all)
 
+        # self.loadjsonshortcut = QShortcut(QKeySequence("Ctrl+Q"), self)
+        # self.loadjsonshortcut.activated.connect(self.close_tab)
+
         if len(backup) == 0:
             self.add_new_tab()
             #print("fresh start")
         else:
-            for data in backup:
+            for (index,data) in enumerate(backup):
                 #print("|",data,"|")
-                if data!="" and data!=None:
+                if data!=None:
                     self.add_new_tab()
                     self.tab_list[self.cur_tab].insertPlainText(data)
+                    # self.tabs.setTabText(index,data["name"])
                     #print("New Tab")
         
     def add_new_tab(self):
@@ -105,6 +110,10 @@ class MyWindow(QMainWindow):
             backup.append(tab.toPlainText())
         with open('.backup_data', 'wb+') as backup_data:
             pickle.dump(backup, backup_data)
+
+    def close_tab(self,event):
+        global backup
+        self.tabs.removeTab(event)
 
 
 
